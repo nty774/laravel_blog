@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
@@ -15,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::latest('id')->paginate(5);
+        // return $categories;
+        return view('category.index',compact('categories'));
     }
 
     /**
@@ -25,7 +28,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::latest('id')->limit(5)->get();
+        return view('category.create',compact('categories'));
     }
 
     /**
@@ -36,7 +40,16 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|unique:categories,title|min:3'
+        ]);
+
+        $category = new Category();
+        $category->title = $request->title;
+        $category->user_id = Auth::id();
+
+        $category->save();
+        return redirect()->route('category.index')->with('status','Category Created');
     }
 
     /**
@@ -58,7 +71,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('category.edit',compact('category'));
     }
 
     /**
@@ -70,7 +83,14 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $request->validate([
+            'title' => 'required|unique:categories,title,'.$category->id.'|min:3'
+        ]);
+
+        $category->title = $request->title;
+        $category->update();
+
+        return redirect()->route('category.index')->with('status','Category Updated');
     }
 
     /**
@@ -81,6 +101,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('category.index')->with('status','Categgory is Deleted');
     }
 }
