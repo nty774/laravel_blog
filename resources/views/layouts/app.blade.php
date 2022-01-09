@@ -33,19 +33,23 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">Home</a>
-                          </li>
+                    @auth
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item  {{route('home') == request()->url() ? 'active' : ''}}" >
+                                <a class="nav-link" href="{{ route('home') }}">Home</a>
+                            </li>
 
-                          <li class="nav-item">
-                            <a class="nav-link" href="{{ route('category.index') }}">Category List</a>
-                          </li>
+                            <li class="nav-item {{route('category.index') == request()->url() ? 'active' : ''}}" >
+                                <a class="nav-link" href="{{ route('category.index') }}">Category List</a>
+                            </li>
 
-                          <li class="nav-item">
-                            <a class="nav-link" href="{{ route('category.create') }}">Category create</a>
-                          </li>
-                    </ul>
+                            <li class="nav-item {{route('category.create') == request()->url() ? 'active' : ''}}">
+                                <a class="nav-link" href="{{ route('category.create') }}">Category create</a>
+                            </li>
+                        </ul>
+                @endauth
+
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">

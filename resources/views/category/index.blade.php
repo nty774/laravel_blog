@@ -53,9 +53,8 @@
                                         <p class="small mb-0">
                                             <i class="fas fa-calendar"></i>
                                             {{ $category->created_at->format('Y-m-d') }} - <i class="fas fa-clock"></i> {{ $category->created_at->format('H:i a') }}
-
                                         </p>
-                                        <p>
+                                        <p class="small mb-0">
                                             <i class="fas fa-user-clock"></i>
                                             {{ $category->created_at->diffForHumans() }}
                                         </p>
