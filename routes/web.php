@@ -27,6 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Route gorup
 Route::middleware('auth')->group(function(){
     Route::resource('category', CategoryController::class);
+    Route::resource('post',\App\Http\Controllers\PostController::class);
 });
 
 
